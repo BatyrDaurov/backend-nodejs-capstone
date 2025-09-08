@@ -3,6 +3,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const pinoLogger = require('./logger');
+const path = require('path')
 
 const connectToDatabase = require('./models/db');
 const {loadData} = require("./util/import-mongo/index");
@@ -18,10 +19,10 @@ connectToDatabase().then(() => {
 })
     .catch((e) => console.error('Failed to connect to DB', e));
 
-
 app.use(express.json());
 
 // Route files
+app.use(express.static(path.join(__dirname, 'public')));
 
 // authRoutes Step 2: import the authRoutes and store in a constant called authRoutes
 const authRoutes = require('./routes/authRoutes');
